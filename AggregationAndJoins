@@ -1,0 +1,91 @@
+create table Mark
+(
+rollnumber int primary key,
+studentname varchar(20),
+tamilmark int,
+englishmark int,
+);
+
+create table Course(
+rollnumber int,
+coursename  varchar(10),
+fees bigint
+);
+
+
+insert into Mark values(1,'kama',100,90);
+insert into Mark values(2,'kavi',99,99);
+insert into Mark values(3,'sri',98,98);
+insert into Mark values(4,'harini',97,97);
+insert into Mark values(5,'nivi',96,99);
+
+insert into Course values(1,'python',500)
+insert into Course values(2,'c',600)
+insert into Course values(3,'java',700)
+insert into Course values(4,'c++',800)
+insert into Course values(5,'c#',900)
+
+
+
+
+
+select *from Mark;
+select *from Course;
+
+--sum--
+
+select sum(tamilmark) as 'TotalTamilMark' from Mark;
+
+--avg--
+
+select avg(englishmark) as 'AverageEnglishMark' from Mark;
+
+
+--count--
+
+select count(rollnumber) from Mark;
+
+--max--
+
+
+select *from Mark where tamilmark=(select max(tamilmark) from Mark);
+
+--min--
+
+
+select *from Mark where englishmark=(select min(englishmark) from Mark);
+
+delete from Mark where rollnumber=1;
+
+--inner join--
+
+select *from Mark INNER JOIN Course on Mark.rollnumber=Course.rollnumber;
+
+
+--outer join--
+
+---leftouter join--
+
+
+select student.studentname ,newcourse.fees from Mark as student left outer join Course as newcourse on student.rollnumber=newcourse.rollnumber;
+
+
+---right outer join--
+
+select *from Course as newcourse right outer join  Mark as student on student.rollnumber=newcourse.rollnumber;
+
+--full join --
+
+select *from Mark  full outer join  Course on Mark.rollnumber=Course.rollnumber;
+
+-- cross join--
+
+
+select *from Mark cross join Course;
+
+
+
+---self join--
+
+
+SELECT n.studentname, m.tamilmark FROM Mark n JOIN Mark m ON n.rollnumber = m.rollnumber;
