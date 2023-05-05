@@ -1,0 +1,82 @@
+create table SalesMan(
+salesmamid int primary key,
+salesmanname varchar(20),
+city varchar(15),
+commission float
+);
+
+insert into SalesMan values(5001,'rose','newyork',0.15);
+insert into SalesMan values(5002,'siya','paris',0.13);
+insert into SalesMan values(5005,'alex','london',0.11);
+insert into SalesMan values(5006,'sumit','paris',0.141);
+insert into SalesMan values(5003,'david','sanjose',0.12);
+insert into SalesMan values(5007,'rakesh','rome',0.13);
+
+select *from SalesMan;
+
+
+create table Oreders(
+orderno int ,
+purchaseamount float,
+orderdate date,
+customerid int,
+salesmanid int);
+
+insert into Oreders values(70001,150.5,'2012-10-05',3005,5002)
+insert into Oreders values(70009,270.65,'2012-09-10',3001,5005)
+insert into Oreders values(70002,65.26,'2012-10-05',3002,5001)
+insert into Oreders values(70004,110.5,'2012-08-17',3009,5003)
+insert into Oreders values(70007,948.5,'2012-09-10',3005,5002)
+insert into Oreders values(70005,2400.6,'2012-07-27',3007,5001)
+insert into Oreders values(70008,5760,'2012-09-10',3002,5001)
+insert into Oreders values(70010,1983.43,'2012-10-10',3004,5006)
+insert into Oreders values(70003,2480.4,'2012-10-10',3009,5003)
+insert into Oreders values(70012,250.45,'2012-06-27',3008,5002)
+insert into Oreders values(70011,75.29,'2012-08-17',3003,5007)
+insert into Oreders values(70013,3045.6,'2012-04-25',3002,5001)
+
+select *from Oreders;
+--a)--
+
+SELECT Oreders.orderno,Oreders.purchaseamount,Oreders.orderdate,Oreders.customerid ,SalesMan.salesmamid
+FROM Oreders
+RIGHT OUTER JOIN SalesMan
+ON  Oreders.salesmanid= SalesMan.salesmamid where SalesMan.salesmanname='david';
+
+--b)--
+
+SELECT Oreders.orderno,Oreders.purchaseamount,Oreders.orderdate,Oreders.customerid ,SalesMan.salesmamid ,SalesMan.salesmanname
+FROM Oreders
+RIGHT OUTER JOIN SalesMan
+ON  Oreders.salesmanid= SalesMan.salesmamid where SalesMan.city='london';
+
+--c)--
+
+SELECT Oreders.orderno,Oreders.purchaseamount,Oreders.orderdate,Oreders.customerid ,SalesMan.salesmamid ,SalesMan.salesmanname
+FROM Oreders
+RIGHT OUTER JOIN SalesMan
+ON  Oreders.salesmanid= SalesMan.salesmamid where Oreders.customerid!=3004;
+
+--d)--
+select avg(purchaseamount) from Oreders where orderdate='2012-09-10';
+select *from Oreders  where purchaseamount>=(select avg(purchaseamount) from Oreders where orderdate='2012-09-10' );
+
+--e)--
+
+SELECT Oreders.orderno,Oreders.purchaseamount,Oreders.orderdate,Oreders.customerid ,SalesMan.salesmamid ,SalesMan.salesmanname
+FROM Oreders
+RIGHT OUTER JOIN SalesMan
+ON  Oreders.salesmanid= SalesMan.salesmamid where SalesMan.city='paris';
+
+
+--f)--
+
+select commission from SalesMan where city='newyork';
+
+--g)--
+select avg(purchaseamount) from Oreders where orderdate='2012-09-10';
+select *from Oreders  where purchaseamount<=(select avg(purchaseamount) from Oreders where orderdate='2012-09-10' );
+
+
+--h)--
+select salesmanname from SalesMan;
