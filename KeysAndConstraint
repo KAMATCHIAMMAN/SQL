@@ -1,0 +1,49 @@
+create database kamatchi
+
+create table NotNullConstraint(
+ rollnumber int not null,
+ phonenumber int unique,
+ id varchar(2) primary key,
+ studentName varchar(10),
+ mark int check(mark>=70),
+ totalnumber int identity(1,1)
+
+);
+
+create table NotNullConstraintTwo(
+ rollnumber int not null,
+ phonenumber int unique,
+ id varchar(2) foreign key references NotNullConstraint(id),
+ studentName varchar(10) 
+);
+insert into NotNullConstraint values(null,'kama',90);
+
+insert into NotNullConstraint values(4,9,1,'kama',80);
+
+insert into NotNullConstraint values(5,9,2,'kama',76);
+
+
+insert into NotNullConstraint values(6,8,null,'kama',86);
+
+insert into NotNullConstraint values(7,7,3,'kama',100);
+
+insert into NotNullConstraint values(4,6,3,'kama',60);
+
+
+
+
+select *from NotNullConstraint;
+select *from NotNullConstraintTwo;
+
+select studentName as stuname from NotNullConstraint ;
+
+select *from NotNullConstraint where studentName='kama' and id=3;
+
+select *from NotNullConstraint where mark in (80,100) ;
+
+select *from NotNullConstraint where mark>70 or rollnumber=4;
+
+select *from NotNullConstraint where rollnumber between 4 and 6;
+ 
+ drop table NotNullConstraint;
+ drop table NotNullConstraintTwo;
