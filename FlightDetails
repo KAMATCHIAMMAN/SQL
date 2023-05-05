@@ -1,0 +1,57 @@
+
+--create table Flightone(
+--fligntno varchar(20),
+	--fromcity varchar(20),
+	--tocity varchar(20),
+	--distance int,
+	--seats int,
+	--frquency int
+--);
+
+CREATE TABLE Flightdetails (
+    id INT PRIMARY KEY,
+    fligntno VARCHAR(10),
+);
+
+ALTER TABLE Flightdetails ADD fromcity varchar(20),
+	tocity varchar(20),
+	distance int,
+	seats int,
+	frquency int;
+
+
+INSERT INTO  Flightdetails VALUES (9,'T1618','mumsui','blueisland',1200,210,4);
+
+
+
+
+--delete from Flightdetails where id=3;
+--a)--
+select fligntno from Flightdetails where frquency > 4;
+
+--b)--
+
+select fligntno,fromcity,tocity from Flightdetails where fromcity='blueisland' or tocity='blueisland';
+
+--c)--
+
+select fligntno,seats from Flightdetails where seats>140;
+
+--d)--
+
+select fligntno,frquency,distance from Flightdetails where distance > 900;
+
+--e)--
+
+select fligntno from Flightdetails where  frquency=1 and seats<180;
+
+--f)--
+
+INSERT INTO  Flightdetails VALUES (9,'T1618','mumsui','blueisland',1200,210,4);
+
+
+
+
+SELECT * FROM  Flightdetails;
+
+
