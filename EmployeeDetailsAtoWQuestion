@@ -1,0 +1,127 @@
+
+create table Employee
+(
+   ENO int unique,
+   ENAME varchar(20),
+   JOB varchar(20),
+   MGR int,
+   HIREDATE date,
+   SAL int,
+   COM int ,
+   DEPT int,
+);
+
+insert into Employee values(7934,'anojkaushik','clerk',7782,'1981-12-03',3500,3500,20);
+
+--a)select all the coloumns--
+select *from Employee;
+
+
+--b)name and employee number--
+
+
+select ENAME,ENO from Employee;
+
+--c)names and hiredate ,salary--
+
+select ENAME,HIREDATE,SAL from Employee;
+
+--d)name and update the salary 300--
+
+UPDATE Employee
+SET 
+    SAL = SAL+300;
+
+	select ENAME,SAL from Employee;
+
+--E)name and annual salary--
+
+
+  SELECT ENAME, SAL, SAL * 12 AS annual_salary FROM Employee;
+
+  --f)name and salary ==nul--
+
+  select ENAME from Employee where SAL=null;
+
+  --g) distinct department--
+
+  select distinct DEPT from Employee;
+
+
+  --h unquie jobs--
+
+  SELECT DISTINCT JOB FROM Employee;
+
+
+  --I) salary less than commision--
+
+  select ENAME ,SAL from Employee where SAL <COM;
+
+
+  --J) salary between 3000 to 4000--
+
+  select *from Employee where SAL between 3000 and 4000;
+  
+  --k)select manager--
+
+  select ENAME from Employee where MGR in(7902,7566,7788);
+
+
+  --l)ename starts with "s'--
+
+  select *from Employee where ENAME like's%';
+
+  --m salary >4100--
+
+  select *from Employee where SAL>4100;
+
+
+  --N) ASEN HIREDATE--
+
+  select *from Employee order by HIREDATE;
+
+  --o) asc of deptno and des of salary--
+
+
+  SELECT *FROM Employee  ORDER BY SAL DESC,DEPT ASC;
+
+  --p) name and job hiredate  betwenn20,02.1981 to 1,5.1981--
+
+
+  select  ENAME, JOB from Employee where HIREDATE between '1981-02-20' and '1981-05-01';
+
+
+  --q)name ,dept of all dept 20 t0 30  name asc--
+
+  SELECT ENAME,DEPT,SAL FROM Employee WHERE DEPT BETWEEN 20 AND 30 ORDER BY SAL ASC;
+
+  ---R)--
+  select ENAME,SAL from Employee where DEPT BETWEEN 10 AND 40 and SAL>1200;
+
+  --s)--
+  --like '1981%'--
+
+  select ENAME,HIREDATE from Employee where HIREDATE between '1981-01-01' and '1981-12-31' ;
+
+
+  --t)--
+
+  select *from Employee where MGR is null;
+
+  --u)--
+
+  select ENAME,SAL from Employee where COM is not null;
+
+  --v)--
+  select ENAME  from Employee where ENAME like '_a%';
+
+  --w--
+
+  select ENAME,JOB  from Employee where DEPT=20 and  MGR=7788;
+
+
+
+
+
+
+drop table Employee;
