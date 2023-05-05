@@ -1,0 +1,31 @@
+use kamatchi;
+/*create schema StudentDetails;
+
+create table StudentDetails.Student(
+rollnumber int,
+studentname varchar(10),
+studentAdress varchar(20)
+);
+*/
+
+create table Student(
+rollnumber int,
+studentname varchar(10),
+studentAdress varchar(20)
+);
+
+alter table Student alter column studentname varchar(20);
+
+insert into Student(rollnumber,studentname,studentAdress) values (1,'kama','tamilnadu'),(2,'sri','delhi'),(3,'kavi','bangalore'),(3,'kavi','bangalore'),(3,'kavi','bangalore'),(3,'kavi','bangalore');
+
+
+alter table Student 
+add Mark int;
+
+
+
+select *from Student;
+--for before inserting --
+select 3,'kavi','bangalore'
+
+drop table Student;
