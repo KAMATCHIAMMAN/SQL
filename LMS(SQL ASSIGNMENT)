@@ -1,0 +1,330 @@
+use LMS_DB
+
+create table LMSMEMBERS(
+memberid varchar(20) primary key,
+membername varchar(30),
+city varchar(30),
+dateofregistered date,
+dateofexpired date,
+memberstatus varchar(30)
+);
+
+
+insert into LMSMEMBERS values ('LM001','amit','chennai','2012-02-12','2013-02-11','temporary')
+insert into LMSMEMBERS values ('LM002','abdhul','delhi','2012-04-10','2013-04-09','temporary')
+insert into LMSMEMBERS values ('LM003','gayan','chennai','2012-05-13','2013-05-12','temporary')
+insert into LMSMEMBERS values ('LM004','radha','chennai','2012-04-22','2013-04-21','temporary')
+insert into LMSMEMBERS values ('LM005','guru','bangalore','2012-03-30','2013-05-16','temporary')
+insert into LMSMEMBERS values ('LM006','mohan','chennai','2012-04-12','2013-05-16','temporary')
+
+
+create table LMSSUPPLIERSDETAILS(
+supplierid varchar(10) primary key,
+suppliername varchar(30),
+supplieraddress varchar(50),
+contact int,
+eail varchar(15)
+);
+
+
+insert into  LMSSUPPLIERSDETAILS values('s01','singaporeshoppee','chennai',98941235,'sing@gmail.com')
+insert into  LMSSUPPLIERSDETAILS values('s02','jkstores','mumbai',99401234,'jks@gmail.com')
+insert into  LMSSUPPLIERSDETAILS values('s03','rosebookstore','trivandrum',94444112,'rose@gmail.com')
+insert into LMSSUPPLIERSDETAILS values('s04','kavaristore','delhi',86300014,'kavi@redif.com')
+insert into LMSSUPPLIERSDETAILS values('s05','einstenbookstore','us',95420000,'eingal@aol.com')
+insert into  LMSSUPPLIERSDETAILS values('s06','akbarstore','mumbai',78556231,'akbakst@aol.com')
+
+
+
+create table LMSFINEDETAILS(
+finerange varchar(3) primary key,
+fineamount numeric(10,2)
+);
+
+
+
+insert into LMSFINEDETAILS values('r0',0.00)
+insert into LMSFINEDETAILS values('r1',20.00)
+insert into LMSFINEDETAILS values('r2',50.00)
+insert into LMSFINEDETAILS values('r3',75.00)
+insert into LMSFINEDETAILS values('r4',100.00)
+insert into LMSFINEDETAILS values('r5',150.00)
+insert into LMSFINEDETAILS values('r0',200.00)
+
+
+
+create table LMSBOOKDEATILS(
+bookcode varchar(10) primary key,
+booktitle varchar(50),
+category varchar(15),
+author varchar(30),
+publication varchar(30),
+publishdate date,
+bookedition int,
+price numeric(8,2),
+racknum varchar(3),
+datearrival date,
+supplierid varchar(30)
+);
+
+
+insert into LMSBOOKDEATILS values('bl000010','javaforvdummies','java','pauljdeitel','prenticehall','1990-12-10',6,575.00,'a1','2011-05-10','s01')
+
+insert into LMSBOOKDEATILS values('bl000002','java:thecompletebook','java','herbert schildt','tatamcgrawhill','2011-10-10',5,750.00,'a1','2011-05-10','s03')
+insert into LMSBOOKDEATILS values('bl000003','java:howtoprogram','java','pauljdeitel','prenticehall','1999-05-10',6,600.50,'a1','2012-05-10','s01')
+insert into LMSBOOKDEATILS values('bl000004','java:thecompletebook','java','herbert schildt','tatamcgrawhill','2011-10-10',5,750.00,'a1','2012-05-11','s01')
+insert into LMSBOOKDEATILS values('bl000005','java:howtoprogram','java','pauljdeitel','prenticehall','1999-12-12',6,600.50,'a1','2012-05-11','s01')
+insert into LMSBOOKDEATILS values('bl000006','java:thecompletebook','java','herbert schildt','tatamcgrawhill','2011-10-10',5,750.00,'a1','2012-05-12','s03')
+insert into LMSBOOKDEATILS values('bl000007','letusc','c','yeshavantkanetkar','bpbpublications','2010-12-11',9,500.00,'a3','2010-11-03','s03')
+insert into LMSBOOKDEATILS values('bl000008','letusc','c','yeshavantkanetkar','bpbpublications','2010-05-12',9,500.00,'a3','2011-08-09','s04')
+insert into LMSBOOKDEATILS values('bl000009','letusc#','c','yeshavantkanetkar','bpbpublications','2010-05-12',9,500.00,'a3','2011-08-09','s04')
+insert into LMSBOOKDEATILS values('bl000011','letusc++','c','yeshavantkanetkar','bpbpublications','2010-05-12',9,650.00,'a3','2011-08-09','s04')
+
+
+
+create table LMSBOOKISSUED(
+bookissueno int primary key,
+memberid varchar(10),
+bookcode varchar(10),
+dateissue date,
+datereturn date,
+datereturned date,
+finerange varchar(3)
+);
+
+
+
+insert into LMSBOOKISSUED values(1,'lm001','bl000010','2012-05-01','2012-05-16','2012-05-16','r0')
+
+insert into LMSBOOKISSUED values(2,'lm002','bl000002','2012-05-01','2012-05-06','2012-05-16','r2')
+insert into LMSBOOKISSUED values(3,'lm003','bl000007','2012-04-01','2012-04-16','2012-04-20','r1')
+insert into LMSBOOKISSUED values(4,'lm004','bl000005','2012-04-01','2012-04-16','2012-04-20','r1')
+insert into LMSBOOKISSUED values(5,'lm005','bl000008','2012-03-30','2012-04-15','2012-04-20','r1')
+insert into LMSBOOKISSUED values(6,'lm005','bl000008','2012-04-20','2012-05-05','2012-05-05','r0')
+insert into LMSBOOKISSUED values(7,'lm003','bl000008','2012-04-22','2012-05-07','2012-05-25','r4')
+
+
+
+--1)---
+
+
+
+EXEC sp_help 'dbo.LMSBOOKDEATILS';
+
+--2)---
+
+create function udfSelectallcolumnoffinedetails()
+returns table
+as
+return select *from LMSFINEDETAILS;
+
+
+select *from udfSelectallcolumnoffinedetails();
+
+
+--3)--
+
+create function udfSelectname()
+returns table
+as
+return select membername from LMSMEMBERS where city='chennai';
+
+select *from udfSelectname();
+
+
+--4)--
+
+create function udfselectmemberwithlifetime()
+returns table
+as
+return (select memberid,membername,city,memberstatus from LMSMEMBERS where memberstatus='permanent');
+
+select *from udfselectmemberwithlifetime();
+
+
+--5)---
+
+create view memberwithbl000002
+as
+select LMSMEMBERS.memberid,LMSMEMBERS.membername from LMSMEMBERS join LMSBOOKISSUED ON LMSMEMBERS.memberid =LMSBOOKISSUED.memberid and LMSBOOKISSUED.bookcode='bl000002'
+
+
+drop view  memberwithbl000002
+select *from  memberwithbl000002
+
+
+--6)--
+
+create function udfauthernamewithp()
+returns table
+as
+return (select bookcode,booktitle,author from LMSBOOKDEATILS where author like'p%');
+
+drop function udfauthernamewithp
+select *from udfauthernamewithp()
+
+
+--7)---
+
+
+create proc totaljavabooks
+@booktype varchar(15)
+as
+begin
+select count(category) as NO_OF_BOOKD from  LMSBOOKDEATILS Where category=@booktype
+end
+
+exec totaljavabooks 'java';
+
+DROP PROC totaljavabooks
+
+--8)---
+
+select count(category),category as NO_OF_BOOKS FROM LMSBOOKDEATILS GROUP BY category 
+
+
+--9)---
+
+
+select count(bookcode) as NO_OF_BOOKS from LMSBOOKDEATILS where publication='prenticehall'
+
+
+--10)---
+
+create proc displaybookcode
+@date date
+as 
+begin
+select  bookcode,booktitle from LMSBOOKDEATILS where publishdate=@date
+end
+
+exec displaybookcode '2012-04-01';
+
+
+---11)---
+
+
+select  memberid,membername,dateofexpired from LMSMEMBERS where dateofexpired between '2012-01-01' and '2012-02-29' and memberstatus='temporary' 
+
+
+--12)----
+
+
+create view memberdetails
+as
+select  memberid,membername,dateofregistered,memberstatus from LMSMEMBERS where dateofregistered between '2012-01-01' and '2012-03-31' and memberstatus='temporary' 
+
+
+select *from memberdetails
+
+
+--13)---
+
+select  memberid,membername from LMSMEMBERS where city='chennai' or city='city'
+
+
+--14)---
+
+
+select CONCAT(booktitle,'_is_written_by_',author) from LMSBOOKDEATILS
+
+
+--15)---
+
+select AVG(price)as AVERAGEPRICE  from LMSBOOKDEATILS group by category having category='java'
+
+---16)---
+
+
+create proc emailisnotnull
+@email varchar(20)=null
+as 
+begin 
+if @email is null
+	select supplierid,suppliername,eail from LMSSUPPLIERSDETAILS;
+end 
+
+exec emailisnotnull
+
+
+--17)--
+
+
+
+---18)--
+
+
+select  LMSMEMBERS.memberid,LMSMEMBERS.membername ,LMSBOOKISSUED.bookcode from LMSMEMBERS join LMSBOOKISSUED  on LMSMEMBERS.memberid=LMSBOOKISSUED.memberid
+
+--19)---
+
+create view finelessthanhun
+as
+select LMSFINEDETAILS.finerange, LMSMEMBERS.memberid, LMSMEMBERS.membername from  JOIN (select  )   ON LMSBOOKISSUED.memberid=LMSMEMBERS.memberid
+
+
+--20)---
+
+
+select  bookcode,booktitle,racknum from LMSBOOKDEATILS where racknum='a1' order by booktitle
+
+--21))---
+
+select LMSMEMBERS.memberid ,LMSMEMBERS.membername,LMSMEMBERS.dateofregistered from LMSMEMBERS join LMSBOOKISSUED on LMSBOOKISSUED.memberid not in ('lm001','lm002','lm003','lm004','lm005','lm005')
+
+
+--22)---
+/*create proc datedifference
+@returndate date,
+@retureddate date
+as
+begin 
+if DATEDIFF(DAY,dbo.returnedate,'@retureddate') IS not null
+select LMSMEMBERS.memberid ,LMSMEMBERS.membername,LMSMEMBERS.dateofregistered from LMSMEMBERS join LMSBOOKISSUED on LMSBOOKISSUED.memberid not in ('lm001','lm002','lm003','lm004','lm005','lm005')
+end
+
+exec datedifference ;
+*/
+
+select memberid from LMSBOOKISSUED where DATEDIFF(day,datereturn,datereturned )  IS  NULL
+
+update LMSBOOKISSUED
+SET datereturned='2012-05-16'
+where memberid='lm001'
+
+
+--23)--
+select count(racknum) as noofbooks ,racknum from LMSBOOKDEATILS group by racknum order by racknum asc
+
+--24)---
+
+
+select LMSBOOKDEATILS.bookcode,LMSBOOKDEATILS.author,LMSBOOKDEATILS.booktitle,LMSBOOKDEATILS.category,LMSBOOKDEATILS.publishdate,LMSBOOKDEATILS.price, LMSBOOKISSUED.datereturn,LMSBOOKISSUED.datereturned,LMSBOOKISSUED.finerange from LMSBOOKDEATILS join LMSBOOKISSUED  on LMSBOOKDEATILS.bookcode=LMSBOOKISSUED.bookcode
+
+
+--30)--
+
+
+select  booktitle from LMSBOOKDEATILS
+
+
+--29)--
+drop table LMSFINEDETAILS
+
+--28)--
+
+
+exec sp_rename 'LMSMEMBERS','LMSMEMBERSDETAILS'
+
+--27)--
+
+
+select supplierid,suppliername,supplieraddress,contact,eail from LMSSUPPLIERSDETAILS where supplierid not in ('s01','s02','s03')
+
+--26)--
+
+
+select top 3 *from LMSSUPPLIERSDETAILS
+
+
+--25)--
