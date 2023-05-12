@@ -1,0 +1,133 @@
+use Books
+
+select *from Books;
+select *from Issued;
+
+create view BookDetails
+as 
+select BookNmae,Price,QuantityIssued from Books join Issued on Books.Bookid=Issued.BookId
+
+select *from BookDetails
+
+alter view BookDetails
+as 
+select *from Books where Price>400;
+
+/*alter view BookDetails
+as 
+select  sum(Price) as TotalPrice from Books Group by Punblisher;
+*/
+drop view BookDetails
+
+create view SchemaBindingView
+with SchemaBinding
+as select BookNmae from dbo.Books
+
+
+alter view SchemaBindingView
+with SchemaBinding
+as select BookNmae from dbo.Books
+
+
+select *from SchemaBindingView
+
+alter table dbo.Books drop column BookNmae
+
+
+---stored procedure--
+
+create procedure uspBookDetails
+@Bookid varchar(20)
+as 
+Begin 
+	select BookNmae,Price,QuantityIssued from Books join Issued on Books.Bookid=Issued.BookId;
+End
+
+exec uspBookDetails C0001;
+
+create proc uspwithoutargument
+@Bookid varchar(20)=null
+as 
+begin
+	if @Bookid is null
+		select *from Books;
+	if @Bookid ='cookery'
+		select BookNmae,AutherName from Books where Typeofbook='cookery';
+	else 
+		select BookNmae,AutherName from Books where Typeofbook='text';
+end
+
+exec uspwithoutargument;
+select *from Books;
+
+drop proc uspwithoutargument
+
+
+----insert stored procedure--
+
+create proc uspinsertvalues
+@BookId varchar(10),
+@NoofBooksIssued int 
+as 
+begin
+insert Issued values(@BookId,@NoofBooksIssued)
+end
+
+exec uspinsertvalues 'F0003',20
+
+select *from Issued;
+
+
+--Updated the stored procedure---
+
+alter proc uspinsertvalues
+@BookId varchar(10),
+@NoofBooksIssued int 
+as 
+begin
+update Issued
+set QuantityIssued=@NoofBooksIssued where BookId=@BookId
+END
+
+
+exec uspinsertvalues 'F0001',20;
+
+
+---Delete the stored procedure values----
+
+alter proc uspinsertvalues
+@BookId varchar(10)
+as 
+begin
+delete Issued where BookId=@BookId
+END
+
+exec uspinsertvalues 'F0001';
+
+
+drop proc uspinsertvalues;
+
+select *from Books;
+
+select *from Issued;
+
+--update view---
+
+update BookDetails set price=500 where bookid='C0001'
+
+select *from BookDetails
+
+---delete view----
+
+delete BookDetails where bookid='F00001'
+
+
+---view with check option---
+
+alter view BookDetails
+as select BookNmae,AutherName from Books where Bookid='C0001'
+with check option 
+
+insert into BookDetails  values('cooking','kamatchi')
+
+update BookDetails set price=500 where bookid='C0001'
