@@ -1,0 +1,110 @@
+use ProductSales
+
+create table Products (
+productcode varchar(20),
+productname varchar(100),
+price real,
+qunremain int ,
+quansold int
+);
+
+insert into Products values('p1','iphone13promax',1200,5,195)
+insert into Products values('p2','airpodspro',279,10,90)
+insert into Products values('p3','macbookpro16',5000,2,48)
+insert into Products values('p4','ipadair',650,1,9)
+
+
+create table sales(
+orderid int,
+orderdate date,
+productcode varchar(20),
+quanordered int,
+saleprice real
+)
+
+
+insert into sales values(1,'2022-01-10','p1',100,120000)
+insert into sales values(2,'2022-01-20','p1',50,60000)
+insert into sales values(3,'2022-02-05','p1',45,540000)
+insert into sales values(4,'2022-01-15','p2',50,13950)
+insert into sales values(5,'2022-03-25','p2',40,11160)
+insert into sales values(6,'2022-02-25','p3',10,50000)
+insert into sales values(7,'2022-03-15','p3',10,50000)
+insert into sales values(8,'2022-03-25','p3',20,100000)
+insert into sales values(9,'2022-04-21','p3',8,40000)
+insert into sales values(10,'2022-04-27','p4',9,5840)
+
+
+select *from Products;
+select *from sales;
+
+
+
+--1)---
+
+create proc uspiphone
+@iphone varchar(20)
+as 
+begin
+select *from Products where productname=@iphone;
+end
+
+
+exec uspiphone 'iphone13promax';
+
+
+--2)--
+
+create proc usptocheckavailability
+@required int,
+@productname varchar(20)
+as
+begin
+if @required <Products.qunremain
+	update Products
+	set qunremain=@required where productname=@productname
+	select *from Products;
+else
+	select *from Products
+end
+
+exec usptocheckavailability 
+
+
+--views ---
+
+
+--1)---
+
+
+create view Updatetheproducttable
+with schemabinding 
+as 
+select qunremain from dbo.Products
+
+update Products
+set qunremain=qunremain+10
+where qunremain is not null
+
+select *from  Products
+select  qunremain from Products
+select *from Updatetheproducttable
+
+--2)--
+
+create view Salepricewithproduct
+as
+select Products.productname ,sales.saleprice from Products join sales on Products.productcode=sales.productcode;
+
+select *from Salepricewithproduct
+
+
+--3)---
+
+create view salesonmarch
+as 
+select *from sales where orderdate between '2022-03-01'and '2022-03-31';
+
+---4)---
+
+select *from salesonmarch
