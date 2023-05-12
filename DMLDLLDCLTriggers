@@ -1,0 +1,86 @@
+use kamatchi
+
+create table employeeaudit(
+id int ,
+insertedby varchar(10)
+);
+
+select *from Employee
+
+--insert trigger--
+
+
+create trigger employeetrigger
+on employee
+for Insert
+as
+begin
+declare @id int
+select @id=ENO from Inserted
+insert into employeeaudit(id,Insertedby) values (@ID ,original_login())
+print 'inerted'
+end
+
+
+select *from employeeaudit
+
+insert into Employee values(7756,'kamatchi','teacher',7902,'1981-09-22',7689,null,10);
+
+--delete trigger----
+
+create trigger deletetrigger
+on Employee
+for delete
+as
+begin
+declare @id int
+select @id=ENO from Employee
+print 'delete'
+end
+
+
+delete from Employee where ENO=4;
+
+
+----rollback--
+
+create trigger triggernotnull
+on Employee
+for delete
+as
+begin
+rollback
+print 'not deleted'
+end
+
+select *from Employee;
+
+
+
+--ddl trigger---
+
+create table newemployee(id int)
+
+create trigger createtrigger
+on database
+for Create_Table
+as
+begin
+rollback
+print 'you are not allowed'
+end
+
+
+alter table newemloyee
+add price int
+
+
+--dcl--
+
+begin transaction 
+delete from Employee where ENO=7369
+commit
+begin transaction 
+update Employee
+set JOB='teacher' where ENO=7499
+rollback
