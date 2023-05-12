@@ -1,0 +1,60 @@
+use Books;
+select *from Books;
+
+
+select SUBSTRING(AutherName,3,2) as NickName from Books; 
+
+select UPPER(BookNmae) as Capitalized from Books;
+
+select REVERSE(Typeofbook) from Books;
+
+select LEN(Bookid) from Books;
+
+create table ImportantDates(
+work date
+);
+insert into ImportantDates values('2023-05-20');
+
+
+select *from ImportantDates;
+
+
+select DATENAME(WEEKDAY,work) from ImportantDates;
+
+
+select DATEDIFF(day,'2022-04-19','2022-04-20');
+
+
+select DATEADD(DAY,20,work) from ImportantDates;
+
+
+select round(526.567,3);
+
+select rand();
+select sqrt(81);
+select SQUARE(10);
+
+
+create function udfSubstring(
+@new varchar(20)
+)
+Returns varchar(20)
+As 
+Begin
+declare @newone varchar(20)
+select
+@newone=substring(@new,2,4)
+return @newone
+End
+
+select dbo.udfSubstring(BookNmae),BookNmae from Books;
+
+--table valued function--
+
+
+create function udfFindFirstLetter()
+Returns table
+As
+return (select *from Books where AutherName like 'a%');
+select *from udfFindFirstLetter();
+
