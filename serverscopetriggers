@@ -1,0 +1,18 @@
+create trigger trg_server_for_database on all server for create_database, drop_database
+as
+begin
+		insert into server_log (event_type,sqlcommand)
+		select eventdata().value ('(evet_instance/eventtype)[1]','nvarchar(255)'),
+		EVENTDATA().value('(/event_instance/tsqlcommand)[1]','nvarchar(255)')
+end
+
+create database  test
+
+
+
+
+
+create table server_log (id int identity,event_type nvarchar (255),
+sqlcommand nvarchar(4000),Event_time datetime default getdate())
+
+select *from server_log
