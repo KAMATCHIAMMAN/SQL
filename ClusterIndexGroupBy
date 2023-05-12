@@ -1,0 +1,41 @@
+use kamatchi
+
+create table Customer (
+customer_id int,
+contactname varchar(50),
+city varchar(20),
+salary int
+)
+
+--Insert records
+insert into Customer(customer_id,contactname,city,salary)
+values(1,'Maria Anders','Berlin',10),
+(2,'Ana Trujillo','London',10),
+(3,'Antonio Moreno','Lulea',20),
+(3,'Thomas Hardy','Madrid',40),
+(2,'Hanna Moos','London',50),
+(2,'Yang Wang','Bern',30)
+
+
+select * from Customer
+
+drop table Customer
+
+--non clustered index--
+
+create index ClusteredIdexExample on Customer(contactname);
+
+
+--clusterindex--
+
+create clustered index ClusteredIndex on Customer(customername);
+
+
+
+
+--groupby ---
+
+
+
+
+
