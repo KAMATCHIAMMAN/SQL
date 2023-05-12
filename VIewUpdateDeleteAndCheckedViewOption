@@ -1,0 +1,20 @@
+-update view---
+
+update BookDetails set price=500 where bookid='C0001'
+
+select *from BookDetails
+
+---delete view----
+
+delete BookDetails where bookid='F00001'
+
+
+---view with check option---
+
+alter view BookDetails
+as select BookNmae,AutherName from Books where Bookid='C0001'
+with check option 
+
+insert into BookDetails  values('cooking','kamatchi')
+
+update BookDetails set price=500 where bookid='C0001'
