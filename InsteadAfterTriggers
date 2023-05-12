@@ -1,0 +1,38 @@
+use kamatchi
+
+---after---
+ create table  student (studentid int ,studentname varchar(50))
+
+ create table studentlog(studentid int ,action varchar (50),actiontime datetime)
+
+ create trigger trginsertstudent on student after insert
+ as 
+begin
+insert into studentlog
+select studentid ,'inserted',GETDATE() from inserted;
+end
+
+insert into student values(1,'kamatchi')
+
+
+create trigger Insteadtrigger on student Instead of Insert
+as
+begin
+Insert into student
+select studentid ,'inserted',GETDATE() from inserted;
+end
+
+alter trigger Insteadtrigger on student Instead of Insert
+as
+begin
+Insert into student
+select studentid,studentname from inserted;
+insert into studentlog
+select studentid ,'inserted',GETDATE() from inserted;
+end
+
+insert into student values(2,'srimathi')
+
+select *from student
+select *from studentlog
+
