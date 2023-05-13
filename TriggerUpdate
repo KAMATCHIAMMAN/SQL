@@ -1,0 +1,24 @@
+use Books
+
+select *from Books
+
+----update--
+
+create trigger updatetrigger
+on Books
+for update
+as
+begin
+if UPDATE (Bookid)
+begin 
+print 'sucessfully update'
+end
+end
+
+update Books
+set  AutherName='kamatchi' where Bookid='c0002'
+
+
+
+
+
