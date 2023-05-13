@@ -1,0 +1,116 @@
+use Tickets
+
+create table Ticketdetails(
+tcode varchar(20),
+username varchar(20),
+tickets int ,
+acode varchar(10)
+);
+
+insert into Ticketdetails (Tcode, username, tickets,acode) values ('S001', 'Meena', 7,'A01'),
+  ('S002', 'Vani', 5,'A02'),
+  ('S003', 'Meena', 9,'A01'),
+  ('S004', 'Karish', 2,'A03'),
+  ('S005', 'Suraj',1,'A02');
+
+create table AgentDetails (
+  Acode varchar(10),
+  AName VARCHAR(20)
+);
+
+insert into AgentDetails (Acode, AName) values ('A01', 'Mr. Robin'),
+  ('A02', 'Mr. Ayush'),
+  ('A03', 'Mr. Trilok'),
+  ('A04', 'Mr. John');
+
+
+  ----1)--
+
+
+select tcode, username, AName from Ticketdetails  join AgentDetails  on Ticketdetails.acode = AgentDetails.Acode where Tickets > 5;
+
+
+--2)---
+
+
+select sum(tickets) AS totalticket from Ticketdetails where acode = 'A02';
+
+--3)---
+
+select AgentDetails.Acode, AgentDetails.AName, Tcode from agentdetails AgentDetails join Ticketdetails  on AgentDetails.Acode = Ticketdetails.acode where AgentDetails.AName like '%k';
+
+---4)---
+/*
+create trigger AddvalueinAgent
+ after insert on Ticketdetails
+for update
+as
+begin
+insert into AgentDetails(Acode,AName)
+Select Acode, AName
+from Updated
+end
+
+update Ticketdetails 
+set username='Meena' where Acode='A02';
+
+drop trigger AddvalueinAgent
+
+
+*/
+
+create trigger updateagentdetails on Ticketdetails after update
+as
+begin
+Insert into AgentDetails
+select Acode,username from inserted
+end
+
+insert into Ticketdetails(acode,username) VALUES('a04','kamatchi')
+
+select *from Ticketdetails
+select *From AgentDetails
+
+drop trigger insertagentdetails
+
+update Ticketdetails
+set username='srimathi' where acode='a04'
+
+--5)---
+
+create trigger deleteticketdetails on Ticketdetails after Insert
+as 
+begin
+Insert into AgentDetails
+select Acode,username from deleted
+end
+
+delete  from Ticketdetails where acode='a04'
+
+--6)
+
+create trigger preventdelete
+ON TICKETDETAILS, AGENTDETAILS
+for delete
+as
+begin
+    if exists (SELECT * FROM deleted)
+    BEGIN
+        print 'No deletion'
+        ROLLBACK TRANSACTION;
+    END;
+END;
+
+--7)--
+
+begin TRANSACTION;
+update Agentdetails
+set AName = 'EampleName'
+WHERE Acode = 'A04';
+
+IF ROW_COUNT() > 0 THEN
+    SELECT 'Changes committed.';
+    COMMIT;
+ELSE
+    SELECT 'Rolling back changes.';
+    ROLLBACK;
